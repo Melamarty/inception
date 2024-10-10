@@ -4,6 +4,9 @@ networks:
   app-network:
     name: app-network
     driver: bridge
+  inception:
+    name: inception
+    driver: bridge
 
 volumes:
   wp:
@@ -59,14 +62,14 @@ services:
       - app-network
     restart: unless-stopped
 
-      ftp:
+  ftp:
     container_name: ftp
     build: ./requirements/bonus/ftp/.
     image: ftp:42
     depends_on:
       - wordpress
     volumes:
-      - wordpress:/home/sami/ftp/files
+      - wp:/home/sami/ftp/files  # Changed from 'wordpress' to 'wp'
     env_file:
       - .env
     ports:
@@ -76,6 +79,7 @@ services:
     networks:
       - inception
     restart: always
+
   adminer:
     container_name: adminer
     build: ./requirements/bonus/adminer/.
@@ -87,17 +91,19 @@ services:
     networks:
       - inception
     restart: always
+
   redis:
     container_name: redis
     build: ./requirements/bonus/redis/.
     image: redis:42
     volumes:
-     - wordpress:/var/www/html
+      - wp:/var/www/html  # Changed from 'wordpress' to 'wp'
     depends_on:
       - wordpress
     networks:
       - inception
     restart: always
+
   cadvisor:
     container_name: cadvisor
     build: ./requirements/bonus/cadvisor/.
@@ -112,4 +118,3 @@ services:
       - /sys:/sys:ro 
       - /var/lib/docker/:/var/lib/docker:ro
     restart: always
-
