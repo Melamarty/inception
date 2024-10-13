@@ -62,59 +62,59 @@ services:
       - app-network
     restart: unless-stopped
 
-  ftp:
-    container_name: ftp
-    build: ./requirements/bonus/ftp/.
-    image: ftp:42
-    depends_on:
-      - wordpress
-    volumes:
-      - wp:/home/sami/ftp/files  # Changed from 'wordpress' to 'wp'
-    env_file:
-      - .env
-    ports:
-      - "21:21"
-      - "20:20"
-      - "40000-40005:40000-40005"
-    networks:
-      - inception
-    restart: always
+  # ftp:
+  #   container_name: ftp
+  #   build: ./requirements/bonus/ftp/.
+  #   image: ftp:42
+  #   depends_on:
+  #     - wordpress
+  #   volumes:
+  #     - wp:/home/sami/ftp/files  # Changed from 'wordpress' to 'wp'
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "21:21"
+  #     - "20:20"
+  #     - "40000-40005:40000-40005"
+  #   networks:
+  #     - inception
+  #   restart: always
 
-  adminer:
-    container_name: adminer
-    build: ./requirements/bonus/adminer/.
-    image: adminer:42
-    depends_on:
-      - mariadb
-    ports:
-      - "600:80"
-    networks:
-      - inception
-    restart: always
+  # adminer:
+  #   container_name: adminer
+  #   build: ./requirements/bonus/adminer/.
+  #   image: adminer:42
+  #   depends_on:
+  #     - mariadb
+  #   ports:
+  #     - "600:80"
+  #   networks:
+  #     - inception
+  #   restart: always
 
-  redis:
-    container_name: redis
-    build: ./requirements/bonus/redis/.
-    image: redis:42
-    volumes:
-      - wp:/var/www/html  # Changed from 'wordpress' to 'wp'
-    depends_on:
-      - wordpress
-    networks:
-      - inception
-    restart: always
+  # redis:
+  #   container_name: redis
+  #   build: ./requirements/bonus/redis/.
+  #   image: redis:42
+  #   volumes:
+  #     - wp:/var/www/html  # Changed from 'wordpress' to 'wp'
+  #   depends_on:
+  #     - wordpress
+  #   networks:
+  #     - inception
+  #   restart: always
 
-  cadvisor:
-    container_name: cadvisor
-    build: ./requirements/bonus/cadvisor/.
-    image: cadvisor:42
-    ports:
-      - "8080:8080"
-    networks:
-      - inception
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:ro 
-      - /sys:/sys:ro 
-      - /var/lib/docker/:/var/lib/docker:ro
-    restart: always
+  # cadvisor:
+  #   container_name: cadvisor
+  #   build: ./requirements/bonus/cadvisor/.
+  #   image: cadvisor:42
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - inception
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run:/var/run:ro 
+  #     - /sys:/sys:ro 
+  #     - /var/lib/docker/:/var/lib/docker:ro
+  #   restart: always

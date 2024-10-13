@@ -2,7 +2,7 @@ FROM debian:buster
 
 RUN apt-get update -y && apt-get install -y nginx openssl
 
-expose 443
+EXPOSE 443
 
 COPY ./conf/nginx.conf /etc/nginx/sites-enabled/default
 COPY ./tools/nginx_script.sh /var/www
