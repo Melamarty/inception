@@ -1,0 +1,12 @@
+FROM debian:bullseye
+
+RUN apt-get update && apt-get install -y mariadb-server mariadb-client
+
+COPY t.conf /etc/mysql/mariadb.conf.d/50-server.cnf
+
+COPY ./script.sh /tmp/script.sh
+
+RUN chmod 777 /tmp/script.sh
+
+
+CMD ["./tmp/script.sh"]

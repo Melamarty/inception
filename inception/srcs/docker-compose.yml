@@ -1,0 +1,85 @@
+
+
+services:
+  mariadb:
+    build: requirements/mariadb
+    image: mariadb:0.1
+    container_name: mariadb
+    restart: always
+    secrets:
+      - db_pass
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - inception_network
+    env_file:
+      - .env
+
+  wordpress:
+    build: requirements/wordpress
+    image: wordpress:0.1
+    container_name: wordpress
+    restart: always
+    secrets:
+      - wp_admin_pass
+      - user_pass
+      - db_pass
+    volumes:
+      - wordpress_data:/var/www/html
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+      - redis
+    networks:
+      - inception_network
+
+  nginx:
+    image: nginx:0.1
+    build: requirements/nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "443:443"
+    networks:
+      - inception_network
+    volumes:
+      - wordpress_data:/var/www/html
+    depends_on:
+      - wordpress
+
+  redis:
+    build: requirements/redis
+    image: redis:0.1
+    container_name: redis
+    restart: always
+    networks:
+      - inception_network
+
+secrets:
+  wp_admin_pass:
+   file: ./../secrets/wp_admin_pass.txt
+  user_pass:
+    file: ./../secrets/user_pass.txt
+  db_pass:
+    file: ./../secrets/configuration_db_password.txt
+
+volumes:
+  mariadb_data:
+    name: mariadb_data
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/mel-amar/data/mariadb
+      o: bind
+  wordpress_data:
+    name: wordpress_data
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/mel-amar/data/wordpress
+      o: bind
+
+networks:
+  inception_network:
+    driver: bridge
