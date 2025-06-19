@@ -1,9 +1,9 @@
 all: start_container
 	docker compose -f ./srcs/docker-compose.yml up
 
-# create_data:
-# 	@mkdir -p /home/mel-amar/data/wordpress
-# 	@mkdir -p /home/mel-amar/data/mariadb
+create_data:
+	@mkdir -p /home/mel-amar/data/wordpress
+	@mkdir -p /home/mel-amar/data/mariadb
 
 down:
 	docker compose -f ./srcs/docker-compose.yml down

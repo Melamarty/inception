@@ -70,14 +70,14 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/mel-amar/data/mariadb
+      device: /home/mel-amar/data/mariadb
       o: bind
   wordpress_data:
     name: wordpress_data
     driver: local
     driver_opts:
       type: none
-      device: /Users/mel-amar/data/wordpress
+      device: /home/mel-amar/data/wordpress
       o: bind
 
 networks:
